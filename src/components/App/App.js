@@ -1,67 +1,49 @@
 import React from 'react';
+import Header from '../Header/Header';
+import Main from '../Main/Main';
+import Footer from '../Footer/Footer';
 
 function App() {
   return (
 	<div className="page">
 		<div className="wrapper">
-			<header className="header">
-				<img className="header__logo" src="<%=require('./images/logo.svg')%>" alt="Логотип Mesto" />
-			</header>
-
-			<main>
-				<section className="profile">
-					<div className="profile__cover">
-					<img className="profile__avatar" src="#" alt="Аватарка профиля" />
-					</div>
-					<div className="profile__info">
-					<h1 className="profile__name"></h1>
-					<button type="button" className="profile__edit-button buttons"></button>
-					<p className="profile__about"></p>
-					</div>
-					<button type="button" className="profile__add-button buttons"></button>
-				</section>
-
-				<section className="elements-grid">
-				</section>
-			</main>
-
-			<footer className="footer">
-				<p className="footer__copyright">&copy; 2021 Mesto Russia</p>
-			</footer>
+      <Header />
+      <Main />
+      <Footer />
 		</div>
 
 		<div className="popup popup_type_profile popup_type_others">
 			<div className="popup__content">
 				<button type="button" className="popup__close-btn buttons"></button>
 				<h3 className="popup__title">Редактировать профиль</h3>
-				<form className="popup__form popup__form_type_profile" name="changeProfile" novalidate>
+				<form className="popup__form popup__form_type_profile" name="changeProfile" noValidate>
 					<div className="input-box">
-					<input
-						required
-						minlength="2"
-						maxlength="40"
-						type="text"
-						placeholder="Имя профиля"
-						id="name-input"
-						className="popup__input popup__input_type_name"
-						name="name"
-					/>
+            <input
+              required
+              minLength="2"
+              maxLength="40"
+              type="text"
+              placeholder="Имя профиля"
+              id="name-input"
+              className="popup__input popup__input_type_name"
+              name="name"
+            />
 
-					<span className="popup__input-error name-input-error"></span>
+            <span className="popup__input-error name-input-error"></span>
 					</div>
 
 					<div className="input-box">
-					<input
-						required
-						minlength="2"
-						maxlength="200"
-						type="text"
-						placeholder="Статус"
-						id="status-input"
-						className="popup__input popup__input_type_status"
-						name="status"
-					/>
-					<span className="popup__input-error status-input-error"></span>
+            <input
+              required
+              minLength="2"
+              maxLength="200"
+              type="text"
+              placeholder="Статус"
+              id="status-input"
+              className="popup__input popup__input_type_status"
+              name="status"
+            />
+            <span className="popup__input-error status-input-error"></span>
 					</div>
 
 					<button type="submit" className="popup__save-btn">Сохранить</button>
@@ -73,33 +55,33 @@ function App() {
 			<div className="popup__content">
 				<button type="button" className="popup__close-btn buttons"></button>
 				<h3 className="popup__title">Новое место</h3>
-				<form className="popup__form popup__form_type_card" name="addItem" id="cardForm" novalidate>
+				<form className="popup__form popup__form_type_card" name="addItem" id="cardForm" noValidate>
 					<div className="input-box">
-					<input
-						required
-						minlength="2"
-						maxlength="30"
-						type="text"
-						placeholder="Название"
-						id="place-input"
-						className="popup__input popup__input_type_title"
-						name="name"
-					/>
+            <input
+              required
+              minLength="2"
+              maxLength="30"
+              type="text"
+              placeholder="Название"
+              id="place-input"
+              className="popup__input popup__input_type_title"
+              name="name"
+            />
 
-					<span className="popup__input-error place-input-error"></span>
+            <span className="popup__input-error place-input-error"></span>
 					</div>
 
 					<div className="input-box">
-					<input
-						required
-						type="url"
-						placeholder="Ссылка на картинку"
-						id="pic-input"
-						className="popup__input popup__input_type_pic"
-						name="link"
-					/>
+            <input
+              required
+              type="url"
+              placeholder="Ссылка на картинку"
+              id="pic-input"
+              className="popup__input popup__input_type_pic"
+              name="link"
+            />
 
-					<span className="popup__input-error pic-input-error"></span>
+            <span className="popup__input-error pic-input-error"></span>
 					</div>
 
 					<button type="submit" className="popup__save-btn">Создать</button>
@@ -127,17 +109,17 @@ function App() {
 			<div className="popup__content popup__avatar-content">
 				<button type="button" className="popup__close-btn buttons"></button>
 				<h3 className="popup__title">Обновить аватар</h3>
-				<form className="popup__form popup__form_type_avatar" name="changeAvatar" id="avatarForm" novalidate>
+				<form className="popup__form popup__form_type_avatar" name="changeAvatar" id="avatarForm" noValidate>
 					<div className="input-box input-box_type_avatar">
-					<input
-						required
-						type="url"
-						placeholder="Ссылка на картинку"
-						id="avatar-input"
-						className="popup__input popup__input_type_avatar"
-						name="link"
-					/>
-					<span className="popup__input-error avatar-input-error"></span>
+            <input
+              required
+              type="url"
+              placeholder="Ссылка на картинку"
+              id="avatar-input"
+              className="popup__input popup__input_type_avatar"
+              name="link"
+            />
+            <span className="popup__input-error avatar-input-error"></span>
 					</div>
 
 					<button type="submit" className="popup__save-btn">Сохранить</button>
@@ -152,8 +134,8 @@ function App() {
 				<div className="elements-grid__group">
 					<h2 className="elements-grid__caption"></h2>
 					<div className="elements-grid__likes">
-					<button type="button" className="elements-grid__like-button"></button>
-					<p className="elements-grid__like-counter"></p>
+            <button type="button" className="elements-grid__like-button"></button>
+            <p className="elements-grid__like-counter"></p>
 					</div>
 				</div>
 			</article>
