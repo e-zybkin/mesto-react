@@ -2,22 +2,53 @@ import React from 'react';
 import Header from '../Header/Header';
 import Main from '../Main/Main';
 import Footer from '../Footer/Footer';
+import PopupWithForm from '../PopupWithForm/PopupWithForm';
+import ImagePopup from '../ImagePopup/ImagePopup';
+
 
 function App() {
+  const [isEditProfilePopupOpen, setProfile] = React.useState(false);
+  const [isAddPlacePopupOpen, setPlace] = React.useState(false);
+  const [isEditAvatarPopupOpen, setAvatar] = React.useState(false);
+
+  function handleEditAvatarClick() {
+    setAvatar(!isEditAvatarPopupOpen);
+  }
+
+  function handleEditProfileClick() {
+    setProfile(!isEditProfilePopupOpen);
+  }
+
+  function handleAddPlaceClick() {
+    setPlace(!isAddPlacePopupOpen);
+  }
+
+  function closeAllPopups() {
+    setProfile(false);
+    setPlace(false);
+    setAvatar(false);
+  }
+
   return (
 	<div className="page">
 		<div className="wrapper">
       <Header />
-      <Main />
+      <Main
+        onEditProfile={handleEditProfileClick}
+        onAddPlace={handleAddPlaceClick}
+        onEditAvatar={handleEditAvatarClick}
+      />
       <Footer />
 		</div>
 
-		<div className="popup popup_type_profile popup_type_others">
-			<div className="popup__content">
-				<button type="button" className="popup__close-btn buttons"></button>
-				<h3 className="popup__title">Редактировать профиль</h3>
-				<form className="popup__form popup__form_type_profile" name="changeProfile" noValidate>
-					<div className="input-box">
+    <PopupWithForm
+      name="profile"
+      title="Редактировать профиль"
+      isOpen={isEditProfilePopupOpen}
+      onClose={closeAllPopups}
+      children={
+        <>
+          <div className="input-box">
             <input
               required
               minLength="2"
@@ -30,9 +61,9 @@ function App() {
             />
 
             <span className="popup__input-error name-input-error"></span>
-					</div>
+          </div>
 
-					<div className="input-box">
+          <div className="input-box">
             <input
               required
               minLength="2"
@@ -44,19 +75,21 @@ function App() {
               name="status"
             />
             <span className="popup__input-error status-input-error"></span>
-					</div>
+          </div>
 
-					<button type="submit" className="popup__save-btn">Сохранить</button>
-				</form>
-			</div>
-		</div>
+          <button type="submit" className="popup__save-btn">Сохранить</button>
+        </>
+      }
+    />
 
-		<div className="popup popup_type_item popup_type_others">
-			<div className="popup__content">
-				<button type="button" className="popup__close-btn buttons"></button>
-				<h3 className="popup__title">Новое место</h3>
-				<form className="popup__form popup__form_type_card" name="addItem" id="cardForm" noValidate>
-					<div className="input-box">
+    <PopupWithForm
+      name="card"
+      title="Новое место"
+      isOpen={isAddPlacePopupOpen}
+      onClose={closeAllPopups}
+      children={
+        <>
+          <div className="input-box">
             <input
               required
               minLength="2"
@@ -85,32 +118,30 @@ function App() {
 					</div>
 
 					<button type="submit" className="popup__save-btn">Создать</button>
-				</form>
-			</div>
-		</div>
+        </>
+      }
+    />
 
-		<div className="popup popup_type_picture">
-			<div className="popup__picture-content">
-				<button type="button" className="popup__close-btn buttons"></button>
-				<img className="popup__picture-image" />
-				<p className="popup__picture-caption"></p>
-			</div>
-		</div>
+    <PopupWithForm
+      name="delete"
+      title="Вы уверены?"
+      isOpen={false}
+      onClose={closeAllPopups}
+      children={
+        <>
+          <button type="submit" className="popup__save-btn">Да</button>
+        </>
+      }
+    />
 
-		<div className="popup popup_type_delete popup_type_others">
-			<form className="popup__content popup__delete-content">
-				<button type="button" className="popup__close-btn buttons"></button>
-				<h3 className="popup__title popup__title_type_del">Вы уверены?</h3>
-				<button type="submit" className="popup__save-btn popup__save-btn_type_del">Да</button>
-			</form>
-		</div>
-
-		<div className="popup popup_type_avatar popup_type_others">
-			<div className="popup__content popup__avatar-content">
-				<button type="button" className="popup__close-btn buttons"></button>
-				<h3 className="popup__title">Обновить аватар</h3>
-				<form className="popup__form popup__form_type_avatar" name="changeAvatar" id="avatarForm" noValidate>
-					<div className="input-box input-box_type_avatar">
+    <PopupWithForm
+      name="avatar"
+      title="Обновить аватар"
+      isOpen={isEditAvatarPopupOpen}
+      onClose={closeAllPopups}
+      children={
+        <>
+          <div className="input-box input-box_type_avatar">
             <input
               required
               type="url"
@@ -123,9 +154,11 @@ function App() {
 					</div>
 
 					<button type="submit" className="popup__save-btn">Сохранить</button>
-				</form>
-			</div>
-		</div>
+        </>
+      }
+    />
+
+    <ImagePopup />
 
 		<template className="template__card">
 			<article className="elements-grid__element">
