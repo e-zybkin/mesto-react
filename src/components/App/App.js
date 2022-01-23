@@ -7,26 +7,26 @@ import ImagePopup from '../ImagePopup/ImagePopup';
 
 
 function App() {
-  const [isEditProfilePopupOpen, setProfile] = React.useState(false);
-  const [isAddPlacePopupOpen, setPlace] = React.useState(false);
-  const [isEditAvatarPopupOpen, setAvatar] = React.useState(false);
+  const [isEditProfilePopupOpen, setProfilePopup] = React.useState(false);
+  const [isAddPlacePopupOpen, setPlacePopup] = React.useState(false);
+  const [isEditAvatarPopupOpen, setAvatarPopup] = React.useState(false);
 
   function handleEditAvatarClick() {
-    setAvatar(!isEditAvatarPopupOpen);
+    setAvatarPopup(!isEditAvatarPopupOpen);
   }
 
   function handleEditProfileClick() {
-    setProfile(!isEditProfilePopupOpen);
+    setProfilePopup(!isEditProfilePopupOpen);
   }
 
   function handleAddPlaceClick() {
-    setPlace(!isAddPlacePopupOpen);
+    setPlacePopup(!isAddPlacePopupOpen);
   }
 
   function closeAllPopups() {
-    setProfile(false);
-    setPlace(false);
-    setAvatar(false);
+    setProfilePopup(false);
+    setPlacePopup(false);
+    setAvatarPopup(false);
   }
 
   return (
@@ -46,117 +46,113 @@ function App() {
       title="Редактировать профиль"
       isOpen={isEditProfilePopupOpen}
       onClose={closeAllPopups}
-      children={
-        <>
-          <div className="input-box">
-            <input
-              required
-              minLength="2"
-              maxLength="40"
-              type="text"
-              placeholder="Имя профиля"
-              id="name-input"
-              className="popup__input popup__input_type_name"
-              name="name"
-            />
+    >
+      <>
+        <div className="input-box">
+          <input
+            required
+            minLength="2"
+            maxLength="40"
+            type="text"
+            placeholder="Имя профиля"
+            id="name-input"
+            className="popup__input popup__input_type_name"
+            name="name"
+          />
 
-            <span className="popup__input-error name-input-error"></span>
-          </div>
+          <span className="popup__input-error name-input-error"></span>
+        </div>
 
-          <div className="input-box">
-            <input
-              required
-              minLength="2"
-              maxLength="200"
-              type="text"
-              placeholder="Статус"
-              id="status-input"
-              className="popup__input popup__input_type_status"
-              name="status"
-            />
-            <span className="popup__input-error status-input-error"></span>
-          </div>
+        <div className="input-box">
+          <input
+            required
+            minLength="2"
+            maxLength="200"
+            type="text"
+            placeholder="Статус"
+            id="status-input"
+            className="popup__input popup__input_type_status"
+            name="status"
+          />
+          <span className="popup__input-error status-input-error"></span>
+        </div>
 
-          <button type="submit" className="popup__save-btn">Сохранить</button>
-        </>
-      }
-    />
+        <button type="submit" className="popup__save-btn">Сохранить</button>
+      </>
+    </PopupWithForm>
 
     <PopupWithForm
       name="card"
       title="Новое место"
       isOpen={isAddPlacePopupOpen}
       onClose={closeAllPopups}
-      children={
-        <>
-          <div className="input-box">
-            <input
-              required
-              minLength="2"
-              maxLength="30"
-              type="text"
-              placeholder="Название"
-              id="place-input"
-              className="popup__input popup__input_type_title"
-              name="name"
-            />
+    >
+      <>
+        <div className="input-box">
+          <input
+            required
+            minLength="2"
+            maxLength="30"
+            type="text"
+            placeholder="Название"
+            id="place-input"
+            className="popup__input popup__input_type_title"
+            name="name"
+          />
 
-            <span className="popup__input-error place-input-error"></span>
-					</div>
+          <span className="popup__input-error place-input-error"></span>
+				</div>
 
-					<div className="input-box">
-            <input
-              required
-              type="url"
-              placeholder="Ссылка на картинку"
-              id="pic-input"
-              className="popup__input popup__input_type_pic"
-              name="link"
-            />
+				<div className="input-box">
+          <input
+            required
+            type="url"
+            placeholder="Ссылка на картинку"
+            id="pic-input"
+            className="popup__input popup__input_type_pic"
+            name="link"
+          />
 
-            <span className="popup__input-error pic-input-error"></span>
-					</div>
+          <span className="popup__input-error pic-input-error"></span>
+				</div>
 
-					<button type="submit" className="popup__save-btn">Создать</button>
-        </>
-      }
-    />
+				<button type="submit" className="popup__save-btn">Создать</button>
+      </>
+    </PopupWithForm>
 
     <PopupWithForm
       name="delete"
       title="Вы уверены?"
       isOpen={false}
       onClose={closeAllPopups}
-      children={
-        <>
-          <button type="submit" className="popup__save-btn">Да</button>
-        </>
-      }
-    />
+    >
+      <>
+        <button type="submit" className="popup__save-btn">Да</button>
+      </>
+    </PopupWithForm>
 
     <PopupWithForm
       name="avatar"
       title="Обновить аватар"
       isOpen={isEditAvatarPopupOpen}
       onClose={closeAllPopups}
-      children={
-        <>
-          <div className="input-box input-box_type_avatar">
-            <input
-              required
-              type="url"
-              placeholder="Ссылка на картинку"
-              id="avatar-input"
-              className="popup__input popup__input_type_avatar"
-              name="link"
-            />
-            <span className="popup__input-error avatar-input-error"></span>
-					</div>
+    >
+      <>
+        <div className="input-box input-box_type_avatar">
+          <input
+            required
+            type="url"
+            placeholder="Ссылка на картинку"
+            id="avatar-input"
+            className="popup__input popup__input_type_avatar"
+            name="link"
+          />
+          <span className="popup__input-error avatar-input-error"></span>
+				</div>
 
-					<button type="submit" className="popup__save-btn">Сохранить</button>
-        </>
-      }
-    />
+				<button type="submit" className="popup__save-btn">Сохранить</button>
+      </>
+    </PopupWithForm>
 
     <ImagePopup />
 
