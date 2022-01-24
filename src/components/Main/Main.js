@@ -9,14 +9,26 @@ function Main(props) {
   const [cards, setCards] = React.useState([]);
 
   React.useEffect(() => {
-    Promise.all([api.getUserData(), api.getInitialCards()])
-    .then(([userData, cards]) => {
-      setUserName(userData.name);
-      setUserDescription(userData.about);
-      setUserAvatar(userData.avatar);
-      setCards(cards)
-    })
-  })
+    api.getUserData()
+      .then(result => {
+        setUserName(result.name);
+        setUserDescription(result.about);
+        setUserAvatar(result.avatar);
+      })
+      .catch(error => {
+        console.log('ОШИБКА: ', error)
+      })
+  }, [])
+
+  React.useEffect(() => {
+    api.getInitialCards()
+      .then(result => {
+        setCards(result)
+      })
+      .catch(error => {
+        console.log('ОШИБКА: ', error)
+      })
+  }, [])
 
   return(
     <main>

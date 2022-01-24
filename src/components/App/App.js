@@ -10,18 +10,18 @@ function App() {
   const [isEditProfilePopupOpen, setProfilePopup] = React.useState(false);
   const [isAddPlacePopupOpen, setPlacePopup] = React.useState(false);
   const [isEditAvatarPopupOpen, setAvatarPopup] = React.useState(false);
-  const [selectedCard, setSelectedCard] = React.useState("")
+  const [selectedCard, setSelectedCard] = React.useState({})
 
   function handleEditAvatarClick() {
-    setAvatarPopup(!isEditAvatarPopupOpen);
+    setAvatarPopup(true);
   }
 
   function handleEditProfileClick() {
-    setProfilePopup(!isEditProfilePopupOpen);
+    setProfilePopup(true);
   }
 
   function handleAddPlaceClick() {
-    setPlacePopup(!isAddPlacePopupOpen);
+    setPlacePopup(true);
   }
 
   function handleCardClick(card) {
@@ -32,7 +32,7 @@ function App() {
     setProfilePopup(false);
     setPlacePopup(false);
     setAvatarPopup(false);
-    setSelectedCard("");
+    setSelectedCard({});
   }
 
   return (
