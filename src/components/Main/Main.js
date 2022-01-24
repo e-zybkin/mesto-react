@@ -1,5 +1,6 @@
 import React from "react";
 import api from "../../utils/api";
+import Card from "../Card/Card";
 
 function Main(props) {
   const [userName, setUserName] = React.useState('');
@@ -8,33 +9,13 @@ function Main(props) {
   const [cards, setCards] = React.useState([]);
 
   React.useEffect(() => {
-    api.getUserData()
-    .then(result => {
-      setUserName(result.name);
-      setUserDescription(result.about);
-      setUserAvatar(result.avatar);
+    Promise.all([api.getUserData(), api.getInitialCards()])
+    .then(([userData, cards]) => {
+      setUserName(userData.name);
+      setUserDescription(userData.about);
+      setUserAvatar(userData.avatar);
+      setCards(cards)
     })
-    .catch(
-      error => {console.log('ОШИБКА: ', error)}
-    );
-
-    api.getInitialCards()
-    .then(result => {
-      setCards(result)
-    })
-    .catch(
-      error => {console.log('ОШИБКА: ', error)}
-    )
-
-    /*
-      Promise.all([api.getUserData(), api.getInitialCards()])
-      .then(([userData, cards]) => {
-        setUserName(userData.name);
-        setUserDescription(userData.about);
-        setUserAvatar(userData.avatar);
-        setCards(cards)
-      })
-    */
   })
 
   return(
@@ -52,7 +33,16 @@ function Main(props) {
 			</section>
 
 			<section className="elements-grid">
-        
+        {cards.map((card, i) => (
+          <Card
+            key={card._id}
+            link={card.link}
+            name={card.name}
+            likes={card.likes}
+            card={card}
+            onCardClick={props.onCardClick}
+          />
+        ))}
 			</section>
 		</main>
   );

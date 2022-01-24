@@ -10,6 +10,7 @@ function App() {
   const [isEditProfilePopupOpen, setProfilePopup] = React.useState(false);
   const [isAddPlacePopupOpen, setPlacePopup] = React.useState(false);
   const [isEditAvatarPopupOpen, setAvatarPopup] = React.useState(false);
+  const [selectedCard, setSelectedCard] = React.useState("")
 
   function handleEditAvatarClick() {
     setAvatarPopup(!isEditAvatarPopupOpen);
@@ -23,10 +24,15 @@ function App() {
     setPlacePopup(!isAddPlacePopupOpen);
   }
 
+  function handleCardClick(card) {
+    setSelectedCard(card)
+  }
+
   function closeAllPopups() {
     setProfilePopup(false);
     setPlacePopup(false);
     setAvatarPopup(false);
+    setSelectedCard("");
   }
 
   return (
@@ -37,6 +43,7 @@ function App() {
         onEditProfile={handleEditProfileClick}
         onAddPlace={handleAddPlaceClick}
         onEditAvatar={handleEditAvatarClick}
+        onCardClick={handleCardClick}
       />
       <Footer />
 		</div>
@@ -154,21 +161,10 @@ function App() {
       </>
     </PopupWithForm>
 
-    <ImagePopup />
-
-		<template className="template__card">
-			<article className="elements-grid__element">
-				<button type="button" className="elements-grid__delete-button buttons"></button>
-				<img className="elements-grid__pic" />
-				<div className="elements-grid__group">
-					<h2 className="elements-grid__caption"></h2>
-					<div className="elements-grid__likes">
-            <button type="button" className="elements-grid__like-button"></button>
-            <p className="elements-grid__like-counter"></p>
-					</div>
-				</div>
-			</article>
-		</template>
+    <ImagePopup
+      card={selectedCard}
+      onClose={closeAllPopups}
+    />
 
  	</div>
   );
