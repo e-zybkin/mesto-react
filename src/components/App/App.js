@@ -5,6 +5,7 @@ import Footer from '../Footer/Footer';
 import PopupWithForm from '../PopupWithForm/PopupWithForm';
 import ImagePopup from '../ImagePopup/ImagePopup';
 import EditProfilePopup from '../EditProfilePopup/EditProfilePopup';
+import EditAvatarPopup from '../EditAvatarPopup/EditAvatarPopup';
 import api from '../../utils/api';
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 
@@ -49,6 +50,29 @@ function App() {
     setSelectedCard({});
   }
 
+  function handleUpdateUser(formData) {
+    api.setUserData(formData)
+      .then(result => {
+        setCurrentUser(result);
+        closeAllPopups();
+        formData.close();
+      })
+      .catch(error => {
+        console.log('ОШИБКА: ', error);
+      })
+  }
+
+  function handleUpdateAvatar(formData) {
+    api.setUserAvatar(formData)
+      .then(result => {
+        setCurrentUser(result);
+        closeAllPopups();
+      })
+      .catch(error => {
+        console.log('ОШИБКА: ', error);
+      })
+  }
+
   return (
 	<div className="page">
 		<div className="wrapper">
@@ -65,6 +89,13 @@ function App() {
         <EditProfilePopup
           isOpen={isEditProfilePopupOpen}
           onClose={closeAllPopups}
+          onUpdateUser={handleUpdateUser}
+        />
+
+        <EditAvatarPopup
+          isOpen={isEditAvatarPopupOpen}
+          onClose={closeAllPopups}
+          onUpdateAvatar={handleUpdateAvatar}
         />
       </CurrentUserContext.Provider>
 		</div>
@@ -116,29 +147,6 @@ function App() {
     >
       <>
         <button type="submit" className="popup__save-btn">Да</button>
-      </>
-    </PopupWithForm>
-
-    <PopupWithForm
-      name="avatar"
-      title="Обновить аватар"
-      isOpen={isEditAvatarPopupOpen}
-      onClose={closeAllPopups}
-    >
-      <>
-        <div className="input-box input-box_type_avatar">
-          <input
-            required
-            type="url"
-            placeholder="Ссылка на картинку"
-            id="avatar-input"
-            className="popup__input popup__input_type_avatar"
-            name="link"
-          />
-          <span className="popup__input-error avatar-input-error"></span>
-				</div>
-
-				<button type="submit" className="popup__save-btn">Сохранить</button>
       </>
     </PopupWithForm>
 

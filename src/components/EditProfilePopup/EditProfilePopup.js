@@ -1,6 +1,5 @@
 import React from "react";
 import PopupWithForm from "../PopupWithForm/PopupWithForm";
-import api from "../../utils/api";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 
 function EditProfilePopup(props) {
@@ -21,12 +20,21 @@ function EditProfilePopup(props) {
     setDescription(e.target.value);
   }
 
+  function handleSubmit(e) {
+    e.preventDefault();
+    props.onUpdateUser({
+      name,
+      status: description,
+    });
+  }
+
   return(
     <PopupWithForm
       name="profile"
       title="Редактировать профиль"
       isOpen={props.isOpen}
       onClose={props.onClose}
+      onSubmit={handleSubmit}
     >
       <>
         <div className="input-box">
