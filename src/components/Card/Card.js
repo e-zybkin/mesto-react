@@ -12,14 +12,24 @@ function Card(props) {
     `elements-grid__like-button ${isLiked ? 'elements-grid__like-button_activated' : ''}`
   )
 
-
   function handleClick() {
     props.onCardClick(props.card);
   }
 
+  function handleLikeClick() {
+    props.onCardLike(props.card);
+  }
+
+  function handleDeleteClick() {
+    props.onCardDelete(props.card);
+  }
+
   return(
     <article className="elements-grid__element">
-      <button type="button" className={cardDeleteButtonClassName}></button>
+      <button type="button"
+        className={cardDeleteButtonClassName}
+        onClick={handleDeleteClick}
+      ></button>
       <img className="elements-grid__pic"
         onClick={handleClick}
         src={props.link}
@@ -28,7 +38,10 @@ function Card(props) {
       <div className="elements-grid__group">
         <h2 className="elements-grid__caption">{props.name}</h2>
         <div className="elements-grid__likes">
-          <button type="button" className={cardLikeButtonClassName}></button>
+          <button type="button"
+            className={cardLikeButtonClassName}
+            onClick={handleLikeClick}
+          ></button>
           <p className="elements-grid__like-counter">{props.likes.length}</p>
         </div>
       </div>

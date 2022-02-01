@@ -4,6 +4,7 @@ import Main from '../Main/Main';
 import Footer from '../Footer/Footer';
 import PopupWithForm from '../PopupWithForm/PopupWithForm';
 import ImagePopup from '../ImagePopup/ImagePopup';
+import EditProfilePopup from '../EditProfilePopup/EditProfilePopup';
 import api from '../../utils/api';
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 
@@ -60,48 +61,13 @@ function App() {
           onCardClick={handleCardClick}
         />
         <Footer />
+
+        <EditProfilePopup
+          isOpen={isEditProfilePopupOpen}
+          onClose={closeAllPopups}
+        />
       </CurrentUserContext.Provider>
 		</div>
-
-    <PopupWithForm
-      name="profile"
-      title="Редактировать профиль"
-      isOpen={isEditProfilePopupOpen}
-      onClose={closeAllPopups}
-    >
-      <>
-        <div className="input-box">
-          <input
-            required
-            minLength="2"
-            maxLength="40"
-            type="text"
-            placeholder="Имя профиля"
-            id="name-input"
-            className="popup__input popup__input_type_name"
-            name="name"
-          />
-
-          <span className="popup__input-error name-input-error"></span>
-        </div>
-
-        <div className="input-box">
-          <input
-            required
-            minLength="2"
-            maxLength="200"
-            type="text"
-            placeholder="Статус"
-            id="status-input"
-            className="popup__input popup__input_type_status"
-            name="status"
-          />
-          <span className="popup__input-error status-input-error"></span>
-        </div>
-
-        <button type="submit" className="popup__save-btn">Сохранить</button>
-      </>
-    </PopupWithForm>
 
     <PopupWithForm
       name="card"
