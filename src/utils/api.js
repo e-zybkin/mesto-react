@@ -74,22 +74,13 @@ class Api {
     .then(result => this._getResponseData(result))
   }
 
-  putLike(data) {
-    return fetch(`${this.address}/cards/${data._id}/likes`, {
-      method: 'PUT',
-      headers: {
-        authorization: this.token
-      }
-    })
-    .then(result => this._getResponseData(result))
-  }
-
-  deleteLike(data) {
-    return fetch(`${this.address}/cards/${data._id}/likes`, {
-      method: 'DELETE',
-      headers: {
-        authorization: this.token
-      }
+  changeLikeCardStatus(cardId, isLiked) {
+    const method = isLiked ? 'PUT' : 'DELETE';
+    return fetch(`${this.address}/cards/${cardId}/likes`, {
+        method,
+        headers: {
+          authorization: this.token
+        }
     })
     .then(result => this._getResponseData(result))
   }
