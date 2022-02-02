@@ -2,10 +2,11 @@ import React from 'react';
 import Header from '../Header/Header';
 import Main from '../Main/Main';
 import Footer from '../Footer/Footer';
-import PopupWithForm from '../PopupWithForm/PopupWithForm';
 import ImagePopup from '../ImagePopup/ImagePopup';
 import EditProfilePopup from '../EditProfilePopup/EditProfilePopup';
 import EditAvatarPopup from '../EditAvatarPopup/EditAvatarPopup';
+import AddPlacePopup from '../AddPlacePopup/AddPlacePopup';
+import DeleteCardPopup from '../DeleteCardPopup/DeleteCardPopup';
 import api from '../../utils/api';
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 
@@ -14,13 +15,26 @@ function App() {
   const [isEditProfilePopupOpen, setProfilePopup] = React.useState(false);
   const [isAddPlacePopupOpen, setPlacePopup] = React.useState(false);
   const [isEditAvatarPopupOpen, setAvatarPopup] = React.useState(false);
+  const [isDeletePopupOpen, setDeletePopup] = React.useState(false);
+  const [isImagePopupOpen, setImagePopup] = React.useState(false);
   const [selectedCard, setSelectedCard] = React.useState({});
   const [currentUser, setCurrentUser] = React.useState({});
+  const [cards, setCards] = React.useState([]);
 
   React.useEffect(() => {
     api.getUserData()
       .then(result => {
         setCurrentUser(result);
+      })
+      .catch(error => {
+        console.log('ОШИБКА: ', error)
+      })
+  }, [])
+
+  React.useEffect(() => {
+    api.getInitialCards()
+      .then(result => {
+        setCards(result)
       })
       .catch(error => {
         console.log('ОШИБКА: ', error)
@@ -39,7 +53,13 @@ function App() {
     setPlacePopup(true);
   }
 
+  function handleDeleteButtonClick(card) {
+    setDeletePopup(true);
+    setSelectedCard(card);
+  }
+
   function handleCardClick(card) {
+    setImagePopup(true)
     setSelectedCard(card)
   }
 
@@ -47,7 +67,31 @@ function App() {
     setProfilePopup(false);
     setPlacePopup(false);
     setAvatarPopup(false);
+    setDeletePopup(false);
+    setImagePopup(false);
     setSelectedCard({});
+  }
+
+  function handleCardLike(card) {
+    const isLiked = card.likes.some(i => i._id === currentUser._id);
+    api.changeLikeCardStatus(card._id, !isLiked)
+      .then((newCard) => {
+        setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
+      })
+      .catch(error => {
+        console.log('ОШИБКА: ', error);
+      })
+  }
+
+  function handleCardDelete(card) {
+    api.deleteCard(card)
+      .then(result => {
+        setCards((state) => state.filter((c) => c._id !== card._id))
+        closeAllPopups();
+      })
+      .catch(error => {
+        console.log('ОШИБКА: ', error);
+      })
   }
 
   function handleUpdateUser(formData) {
@@ -55,7 +99,6 @@ function App() {
       .then(result => {
         setCurrentUser(result);
         closeAllPopups();
-        formData.close();
       })
       .catch(error => {
         console.log('ОШИБКА: ', error);
@@ -73,6 +116,17 @@ function App() {
       })
   }
 
+  function handleAddCard(formData) {
+    api.setNewCard(formData)
+      .then(result => {
+        setCards([result, ...cards]);
+        closeAllPopups();
+      })
+      .catch(error => {
+        console.log('ОШИБКА: ', error);
+      })
+  }
+
   return (
 	<div className="page">
 		<div className="wrapper">
@@ -83,6 +137,10 @@ function App() {
           onAddPlace={handleAddPlaceClick}
           onEditAvatar={handleEditAvatarClick}
           onCardClick={handleCardClick}
+          cards={cards}
+          onCardLike={handleCardLike}
+          onCardDelete={handleCardDelete}
+          onDeleteButton={handleDeleteButtonClick}
         />
         <Footer />
 
@@ -97,64 +155,27 @@ function App() {
           onClose={closeAllPopups}
           onUpdateAvatar={handleUpdateAvatar}
         />
+
+        <AddPlacePopup
+          isOpen={isAddPlacePopupOpen}
+          onClose={closeAllPopups}
+          onAddCard={handleAddCard}
+        />
+
+        <ImagePopup
+          card={selectedCard}
+          isOpen={isImagePopupOpen}
+          onClose={closeAllPopups}
+        />
+
+        <DeleteCardPopup
+          card={selectedCard}
+          isOpen={isDeletePopupOpen}
+          onClose={closeAllPopups}
+          onCardDelete={handleCardDelete}
+        />
       </CurrentUserContext.Provider>
 		</div>
-
-    <PopupWithForm
-      name="card"
-      title="Новое место"
-      isOpen={isAddPlacePopupOpen}
-      onClose={closeAllPopups}
-    >
-      <>
-        <div className="input-box">
-          <input
-            required
-            minLength="2"
-            maxLength="30"
-            type="text"
-            placeholder="Название"
-            id="place-input"
-            className="popup__input popup__input_type_title"
-            name="name"
-          />
-
-          <span className="popup__input-error place-input-error"></span>
-				</div>
-
-				<div className="input-box">
-          <input
-            required
-            type="url"
-            placeholder="Ссылка на картинку"
-            id="pic-input"
-            className="popup__input popup__input_type_pic"
-            name="link"
-          />
-
-          <span className="popup__input-error pic-input-error"></span>
-				</div>
-
-				<button type="submit" className="popup__save-btn">Создать</button>
-      </>
-    </PopupWithForm>
-
-    <PopupWithForm
-      name="delete"
-      title="Вы уверены?"
-      isOpen={false}
-      onClose={closeAllPopups}
-    >
-      <>
-        <button type="submit" className="popup__save-btn">Да</button>
-      </>
-    </PopupWithForm>
-
-    <ImagePopup
-      card={selectedCard}
-      onClose={closeAllPopups}
-    />
-
  	</div>
   );
 }

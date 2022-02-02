@@ -20,15 +20,15 @@ function Card(props) {
     props.onCardLike(props.card);
   }
 
-  function handleDeleteClick() {
-    props.onCardDelete(props.card);
+  function handleDeleteButtonClick() {
+    props.onDeleteButton(props.card);
   }
 
   return(
     <article className="elements-grid__element">
       <button type="button"
         className={cardDeleteButtonClassName}
-        onClick={handleDeleteClick}
+        onClick={handleDeleteButtonClick}
       ></button>
       <img className="elements-grid__pic"
         onClick={handleClick}
